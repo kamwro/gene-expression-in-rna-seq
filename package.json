@@ -1,0 +1,17 @@
+{
+  "name": "gene-expresson-in-rna-seq",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "build": "concurrently \"npm run build:frontend\" \"npm run build:backend\"",
+    "start:frontend": "npm --prefix frontend start",
+    "start:backend": "cd backend && set PIPENV_IGNORE_VIRTUALENVS=1 && pipenv run uvicorn app:app --reload",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "cd backend && set PIPENV_IGNORE_VIRTUALENVS=1 && pipenv install",
+    "seed-db": "pipenv run python backend/scripts/seed.py"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

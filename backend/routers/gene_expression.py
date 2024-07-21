@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List, Dict, Any
 import pandas as pd
@@ -12,7 +12,7 @@ class GeneExpressionData(BaseModel):
 @router.post("/process")
 async def process_data(gene_expression_data: GeneExpressionData):
     df = pd.DataFrame(gene_expression_data.data)
-    result = df.describe().to_dict()  # Simple example
+    result = df.describe().to_dict()
     return result
 
 @router.get("/results")

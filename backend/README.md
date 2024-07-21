@@ -1,0 +1,5 @@
+# Tech stack
+
+## Fastapi
+
+## Sqlite

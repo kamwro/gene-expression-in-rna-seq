@@ -8,5 +8,6 @@ fastapi = "*"
 uvicorn = "*"
 biopython = "*"
 pandas = "*"
+sqlalchemy = "*"
 
 [dev-packages]
