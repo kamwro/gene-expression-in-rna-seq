@@ -1,5 +1,6 @@
 import React from 'react';
-import type { ResultsProps } from '../types';
+import '../index.css';
+import type { ResultsProps } from '../utils/types';
 
 const Results: React.FC<ResultsProps> = ({ data }) => {
   // Check if data is an array or an object and render accordingly

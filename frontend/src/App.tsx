@@ -3,12 +3,13 @@ import axios from 'axios';
 
 import GeneExpressionForm from './components/GeneExpressionForm';
 import Results from './components/Results';
-import type { GeneExpressionEntry, ResultItem } from './types';
+import './index.css';
+import type { GeneExpressionEntry } from './utils/types';
 
 const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
 
 const App: React.FC = () => {
-  const [results, setResults] = useState<ResultItem[]>();
+  const [results, setResults] = useState<GeneExpressionEntry[]>();
 
   const handleDataSubmit = async (data: { data: GeneExpressionEntry[] }) => {
     try {
@@ -27,7 +28,7 @@ const App: React.FC = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl mb-4">Gene Expression Analysis</h1>
       <GeneExpressionForm onSubmit={handleDataSubmit} />
-      {results && <Results data={results} />}
+      {results && <Results data={{ data: results }} />}
     </div>
   );
 };
