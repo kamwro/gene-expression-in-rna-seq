@@ -2,4 +2,4 @@
 line-length = 88
 
 [tool.mypy]
-files = "."
+files = "src"

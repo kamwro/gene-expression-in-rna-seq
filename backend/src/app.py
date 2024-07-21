@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from models import GeneExpressionRequest
-from routers import gene_expression
+from src.models import GeneExpressionRequest
+from src.routers import gene_expression
 
 app = FastAPI()
 
