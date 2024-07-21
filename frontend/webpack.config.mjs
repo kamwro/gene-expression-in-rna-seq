@@ -1,8 +1,10 @@
-const path = require('path');
-const webpack = require('webpack');
-require('dotenv').config();
+import path from 'path';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
 
-module.exports = {
+dotenv.config();
+
+export default {
   entry: './src/index.tsx',
   mode: 'development',
   devtool: 'inline-source-map',

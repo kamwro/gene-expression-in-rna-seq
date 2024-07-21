@@ -2,7 +2,7 @@
 Pipfile.lock
 
 # Database
-db
+db/
 
 # Environmental
 .env
