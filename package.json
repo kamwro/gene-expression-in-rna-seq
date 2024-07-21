@@ -10,7 +10,8 @@
     "build:frontend": "npm run build --prefix frontend",
     "build:backend": "cd backend && set PIPENV_IGNORE_VIRTUALENVS=1 && pipenv install",
     "seed-db": "pipenv run python backend/scripts/seed.py",
-    "lint:frontend": "npm run lint --prefix frontend"
+    "lint:frontend": "npm run lint --prefix frontend",
+    "format:frontend": "npm run format --prefix frontend"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

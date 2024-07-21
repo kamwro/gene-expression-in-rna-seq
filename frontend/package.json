@@ -2,7 +2,8 @@
   "scripts": {
     "start": "webpack serve --open",
     "build": "webpack",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx,css,html}\""
   },
   "type": "module",
   "dependencies": {
