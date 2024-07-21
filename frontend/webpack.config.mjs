@@ -1,8 +1,14 @@
-const path = require('path');
-const webpack = require('webpack');
-require('dotenv').config();
+import path from 'path';
+import { fileURLToPath } from 'url';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
 
-module.exports = {
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
   entry: './src/index.tsx',
   mode: 'development',
   devtool: 'inline-source-map',

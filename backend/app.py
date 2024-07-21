@@ -18,9 +18,11 @@ app.add_middleware(
 
 app.include_router(gene_expression.router, prefix="/api")
 
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Gene Expression Analysis API"}
+
 
 @app.post("/api/process")
 async def process_gene_expression(data: GeneExpressionRequest):

@@ -8,17 +8,23 @@ interface GeneExpressionFormProps {
   onSubmit: (data: GeneExpressionData) => void;
 }
 
-const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({ onSubmit }) => {
-  const [entries, setEntries] = useState<{ gene: string; expression_level: number }[]>([
-    { gene: '', expression_level: 0 }
-  ]);
+const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
+  onSubmit,
+}) => {
+  const [entries, setEntries] = useState<
+    { gene: string; expression_level: number }[]
+  >([{ gene: '', expression_level: 0 }]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (index: number, field: 'gene' | 'expression_level', value: string | number) => {
+  const handleChange = (
+    index: number,
+    field: 'gene' | 'expression_level',
+    value: string | number
+  ) => {
     const updatedEntries = [...entries];
     updatedEntries[index] = {
       ...updatedEntries[index],
-      [field]: value
+      [field]: value,
     };
     setEntries(updatedEntries);
   };
@@ -35,7 +41,7 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({ onSubmit }) => 
     try {
       await onSubmit({ data: entries });
     } catch (error) {
-      console.error("Error submitting data", error);
+      console.error('Error submitting data', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -55,16 +61,24 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({ onSubmit }) => 
             type="number"
             placeholder="Expression Level"
             value={entry.expression_level}
-            onChange={(e) => handleChange(index, 'expression_level', (e.target.value))}
+            onChange={(e) =>
+              handleChange(index, 'expression_level', e.target.value)
+            }
           />
         </div>
       ))}
-      <button type="button" onClick={addEntry}>Add Entry</button>
-      <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white" disabled={isSubmitting}>
+      <button type="button" onClick={addEntry}>
+        Add Entry
+      </button>
+      <button
+        type="submit"
+        className="mt-2 px-4 py-2 bg-blue-500 text-white"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? 'Submitting...' : 'Analyze'}
       </button>
     </form>
   );
-}
+};
 
 export default GeneExpressionForm;

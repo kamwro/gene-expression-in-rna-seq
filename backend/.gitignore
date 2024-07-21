@@ -1,8 +1,9 @@
-# Packages
-Pipfile.lock
-
 # Database
-db
+db/
 
 # Environmental
 .env
+
+# Generated
+.mypy_cache/
+__pycache__

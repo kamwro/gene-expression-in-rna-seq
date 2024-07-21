@@ -3,15 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-    "build": "concurrently \"npm run build:frontend\" \"npm run build:backend\"",
-    "start:frontend": "npm --prefix frontend start",
-    "start:backend": "cd backend && set PIPENV_IGNORE_VIRTUALENVS=1 && pipenv run uvicorn app:app --reload",
+    "build:backend": "cd backend && inv install",
     "build:frontend": "npm run build --prefix frontend",
-    "build:backend": "cd backend && set PIPENV_IGNORE_VIRTUALENVS=1 && pipenv install",
-    "seed-db": "pipenv run python backend/scripts/seed.py"
+    "build": "concurrently \"npm run build:frontend\" \"npm run build:backend\"",
+    "format:backend": "cd backend && inv format",
+    "format:frontend": "npm run format --prefix frontend",
+    "format": "concurrently \"npm run format:frontend\" \"npm run format:backend\"",
+    "lint:backend": "cd backend && inv lint",
+    "lint:frontend": "npm run lint --prefix frontend",
+    "lint": "concurrently \"npm run lint:frontend\" \"npm run lint:backend\"",
+    "seed-db": "cd backend && inv seed",
+    "start:backend": "cd backend && inv run",
+    "start:frontend": "npm --prefix frontend start",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "typecheck:backend": "cd backend && inv typecheck"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "concurrently": "^8.2.2"
   }
 }
