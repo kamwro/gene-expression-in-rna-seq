@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List, Dict, Any
 import pandas as pd
-from database import get_db_connection
+from src.database import get_db_connection
 
 router = APIRouter()
 
