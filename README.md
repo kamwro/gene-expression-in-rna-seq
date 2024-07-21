@@ -5,11 +5,3 @@
 ### Backend: Fastapi + Sqlite
 
 ### Frontend: React (ts) + CSS Tailwind
-
-## Quick start
-
-### Seed the database
-
-```python
-make seed-db
-```
