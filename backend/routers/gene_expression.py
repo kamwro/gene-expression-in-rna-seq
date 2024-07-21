@@ -6,8 +6,10 @@ from database import get_db_connection
 
 router = APIRouter()
 
+
 class GeneExpressionData(BaseModel):
     data: List[Dict[str, Any]]
+
 
 @router.post("/process")
 async def process_data(gene_expression_data: GeneExpressionData):
@@ -15,8 +17,9 @@ async def process_data(gene_expression_data: GeneExpressionData):
     result = df.describe().to_dict()
     return result
 
+
 @router.get("/results")
 async def get_results():
     conn = get_db_connection()
-    data = conn.execute('SELECT * FROM results').fetchall()
+    data = conn.execute("SELECT * FROM results").fetchall()
     return [dict(row) for row in data]

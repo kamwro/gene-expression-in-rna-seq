@@ -11,7 +11,10 @@
     "build:backend": "cd backend && set PIPENV_IGNORE_VIRTUALENVS=1 && pipenv install",
     "seed-db": "pipenv run python backend/scripts/seed.py",
     "lint:frontend": "npm run lint --prefix frontend",
-    "format:frontend": "npm run format --prefix frontend"
+    "format:frontend": "npm run format --prefix frontend",
+    "lint:backend": "cd backend && flake8 .",
+    "format:backend": "cd backend && black .",
+    "typecheck:backend": "cd backend && mypy ."
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

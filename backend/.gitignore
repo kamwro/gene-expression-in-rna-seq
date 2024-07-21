@@ -6,3 +6,6 @@ db/
 
 # Environmental
 .env
+
+# Generated
+.mypy_cache/
