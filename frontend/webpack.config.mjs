@@ -19,6 +19,15 @@ export default {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader', // Injects styles into DOM
+          'css-loader',   // Turns CSS into CommonJS
+          'postcss-loader' // Processes CSS with PostCSS
+        ],
+        include: path.resolve(__dirname, 'src'),
+      },
     ],
   },
   resolve: {

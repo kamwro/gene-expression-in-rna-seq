@@ -1,82 +1,70 @@
 import React, { useState } from 'react';
-
-interface GeneExpressionData {
-  data: { gene: string; expression_level: number }[];
-}
-
-interface GeneExpressionFormProps {
-  onSubmit: (data: GeneExpressionData) => void;
-}
+import '../index.css';
+import type { GeneExpressionFormProps } from '../utils/types';
+import { csvToJson, generateSampleCsv } from '../utils';
 
 const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
   onSubmit,
 }) => {
-  const [entries, setEntries] = useState<
-    { gene: string; expression_level: number }[]
-  >([{ gene: '', expression_level: 0 }]);
+  const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (
-    index: number,
-    field: 'gene' | 'expression_level',
-    value: string | number
-  ) => {
-    const updatedEntries = [...entries];
-    updatedEntries[index] = {
-      ...updatedEntries[index],
-      [field]: value,
-    };
-    setEntries(updatedEntries);
-  };
-
-  const addEntry = () => {
-    setEntries([...entries, { gene: '', expression_level: 0 }]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+      setError(null); // Reset any previous errors when a new file is selected
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSubmitting) return; // Prevent duplicate submissions
-
-    setIsSubmitting(true);
-    try {
-      await onSubmit({ data: entries });
-    } catch (error) {
-      console.error('Error submitting data', error);
-    } finally {
-      setIsSubmitting(false);
+    if (file) {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+      try {
+        const jsonData = await csvToJson(file);
+        console.log('Parsed JSON Data:', jsonData);
+        onSubmit(jsonData);
+      } catch (error) {
+        console.error('Error parsing CSV file', error);
+        setError(
+          'Error parsing CSV file. Please check the file format and try again.'
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      setError('No file selected. Please choose a CSV file to upload.');
+      console.error('No file selected');
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {entries.map((entry, index) => (
-        <div key={index} className="entry">
-          <input
-            type="text"
-            placeholder="Gene"
-            value={entry.gene}
-            onChange={(e) => handleChange(index, 'gene', e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Expression Level"
-            value={entry.expression_level}
-            onChange={(e) =>
-              handleChange(index, 'expression_level', e.target.value)
-            }
-          />
-        </div>
-      ))}
-      <button type="button" onClick={addEntry}>
-        Add Entry
-      </button>
+      <input type="file" accept=".csv" onChange={handleFileChange} />
+
       <button
         type="submit"
-        className="mt-2 px-4 py-2 bg-blue-500 text-white"
-        disabled={isSubmitting}
+        className="mr-10 mt-2 px-4 py-2 bg-blue-500 text-white"
       >
         {isSubmitting ? 'Submitting...' : 'Analyze'}
       </button>
+
+      <button
+        type="button"
+        onClick={generateSampleCsv}
+        className="mt-2 px-5 py-2 bg-blue-600 text-white"
+      >
+        Download Sample CSV
+      </button>
+
+      <p className="mt-2 text-gray-600">
+        Upload a CSV file containing gene expression data. Ensure the file has
+        columns for 'gene' and 'expression_level'.
+      </p>
+
+      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 };
