@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 import pandas as pd
-from models import GeneExpressionData
-from database import get_db_connection
+from src.models import GeneExpressionData
+from src.database import get_db_connection
 
 router = APIRouter()
 

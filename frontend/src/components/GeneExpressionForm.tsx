@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '../index.css';
 import type { GeneExpressionFormProps } from '../utils/types';
-import { csvToJson, generateSampleCsv } from '../utils';
+import { csvToJson } from '../utils';
+
+const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
 
 const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
   onSubmit,
@@ -40,6 +42,19 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
     }
   };
 
+  const handleDownloadSampleCSV = async () => {
+    const response = await fetch(`${API_BASE_URL}/api/sample-csv`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'sample_data.csv';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <input type="file" accept=".csv" onChange={handleFileChange} />
@@ -53,7 +68,7 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
 
       <button
         type="button"
-        onClick={generateSampleCsv}
+        onClick={handleDownloadSampleCSV}
         className="mt-2 px-5 py-2 bg-blue-600 text-white"
       >
         Download Sample CSV

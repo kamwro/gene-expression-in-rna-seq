@@ -9,22 +9,23 @@ def install(c):
 @task
 def lint(c):
 
-    c.run("flake8 src/")
+    c.run("flake8 .")
 
 
 @task
 def format(c):
-    c.run("black src/")
+    c.run("black .")
 
 
 @task
 def typecheck(c):
-    c.run("mypy src/")
+    c.run("mypy .")
 
 
 @task
 def run(c):
     c.run("uvicorn src.app:app --reload")
+
 
 @task
 def seed(c):
