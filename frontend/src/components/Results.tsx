@@ -31,32 +31,49 @@ const Results: React.FC<ResultsProps> = ({ data }) => {
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
-    let height = 10;
+    let y = 10;
+    const lineHeight = 10;
+    const margin = 10;
+    const pageHeight = doc.internal.pageSize.height;
+  
     doc.setFontSize(20);
     doc.setTextColor(0, 0, 255);
-    doc.text('Results', 10, height);
-
+    doc.text('Results', margin, y);
+    y += lineHeight * 2;
+  
     const dataObject = data.data;
-
-    // Generate text for PDF from object
+  
     for (const [key, value] of Object.entries(dataObject)) {
-      height += 20;
+      // Check if we need a new page before writing the key
+      if (y + lineHeight * 2 > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
       doc.setFontSize(15);
       doc.setTextColor(0, 0, 255);
-      doc.text(key, 10, height);
+      doc.text(key, margin, y);
+      y += lineHeight;
+  
+      // Check if we need a new page before writing the values
       doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
-      height += 10;
       for (const [key2, value2] of Object.entries(value)) {
-        height += 10;
+        if (y + lineHeight > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
+        }
         const line = `${key2}: ${value2}`;
-        doc.text(line, 10, height);
+        doc.text(line, margin, y);
+        y += lineHeight;
       }
+      y += lineHeight; // Add space between sections
     }
-
-    // Save PDF
+  
     doc.save('results.pdf');
   };
+  
+  
+  
 
   return (
     <div className="mt-4">
