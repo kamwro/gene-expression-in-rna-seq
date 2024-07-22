@@ -18,5 +18,3 @@ export interface ResultsProps {
     data: Record<string, any>[]; // Array of records
   };
 }
-
-

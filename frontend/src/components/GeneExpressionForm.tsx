@@ -44,10 +44,13 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
     <form onSubmit={handleSubmit}>
       <input type="file" accept=".csv" onChange={handleFileChange} />
 
-      <button type="submit" className="mr-10 mt-2 px-4 py-2 bg-blue-500 text-white">
+      <button
+        type="submit"
+        className="mr-10 mt-2 px-4 py-2 bg-blue-500 text-white"
+      >
         {isSubmitting ? 'Submitting...' : 'Analyze'}
       </button>
-      
+
       <button
         type="button"
         onClick={generateSampleCsv}
