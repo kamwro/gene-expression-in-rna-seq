@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css';
 import type { GeneExpressionFormProps } from '../utils/types';
-import { csvToJson } from '../utils/csvToJson';
+import { csvToJson, generateSampleCsv } from '../utils';
 
 const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
   onSubmit,
@@ -43,13 +43,24 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       <input type="file" accept=".csv" onChange={handleFileChange} />
-      <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white">
+
+      <button type="submit" className="mr-10 mt-2 px-4 py-2 bg-blue-500 text-white">
         {isSubmitting ? 'Submitting...' : 'Analyze'}
       </button>
+      
+      <button
+        type="button"
+        onClick={generateSampleCsv}
+        className="mt-2 px-5 py-2 bg-blue-600 text-white"
+      >
+        Download Sample CSV
+      </button>
+
       <p className="mt-2 text-gray-600">
         Upload a CSV file containing gene expression data. Ensure the file has
         columns for 'gene' and 'expression_level'.
       </p>
+
       {error && <p className="text-red-500">{error}</p>}
     </form>
   );
