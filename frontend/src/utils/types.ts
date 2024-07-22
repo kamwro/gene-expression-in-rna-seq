@@ -1,6 +1,7 @@
 export interface GeneExpressionEntry {
-  gene: string;
-  expression_level: number;
+  [key: string]: any; // Allow indexing by string keys
+  gene?: string;
+  expression_level?: number;
 }
 
 export interface GeneExpressionData {
@@ -12,5 +13,10 @@ export interface GeneExpressionFormProps {
 }
 
 export interface ResultsProps {
-  data: GeneExpressionData;
+  fields?: string[];
+  data: {
+    data: Record<string, any>[]; // Array of records
+  };
 }
+
+

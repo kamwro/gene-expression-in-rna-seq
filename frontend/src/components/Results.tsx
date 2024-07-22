@@ -1,4 +1,5 @@
 import React from 'react';
+import { saveAs } from 'file-saver'; 
 import '../index.css';
 import type { ResultsProps } from '../utils/types';
 
@@ -19,11 +20,20 @@ const Results: React.FC<ResultsProps> = ({ data }) => {
       return <p>No results to display.</p>;
     }
   };
+  const handleDownloadText = () => {
+    const textData = JSON.stringify(data.data);
 
+    // Create a Blob and save it as a text file
+    const blob = new Blob([textData], { type: 'text/plain;charset=utf-8;' });
+    saveAs(blob, 'results.txt');
+  };
   return (
     <div className="mt-4">
       <h2 className="text-xl mb-2">Results</h2>
       {renderResults()}
+      <button onClick={handleDownloadText} className="bg-green-500 text-white px-4 py-2">
+        Download txt
+      </button>
     </div>
   );
 };
