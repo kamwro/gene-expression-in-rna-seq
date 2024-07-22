@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css';
 import type { GeneExpressionFormProps } from '../utils/types';
-import { csvToJson } from '../utils';
+import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
 
@@ -25,9 +25,14 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
       if (isSubmitting) return;
       setIsSubmitting(true);
       try {
-        const jsonData = await csvToJson(file);
-        console.log('Parsed JSON Data:', jsonData);
-        onSubmit(jsonData);
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await axios.post(`${API_BASE_URL}/api/csv-to-json`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }});
+        
+        onSubmit(response.data);
       } catch (error) {
         console.error('Error parsing CSV file', error);
         setError(
