@@ -43,6 +43,7 @@ python-multipart==0.0.9
 pytz==2024.1
 PyYAML==6.0.1
 reportlab==4.2.2
+reportlab-stubs==3.6.9.post0
 rich==13.7.1
 shellingham==1.5.4
 six==1.16.0

@@ -38,12 +38,12 @@ const Results: React.FC<ResultsProps> = ({ data }) => {
       },
       body: JSON.stringify({ data: data.data }),
     });
-  
+
     if (!response.ok) {
       console.error('Failed to generate PDF');
       return;
     }
-  
+
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -52,7 +52,7 @@ const Results: React.FC<ResultsProps> = ({ data }) => {
     a.click();
     window.URL.revokeObjectURL(url);
   };
-  
+
   return (
     <div className="mt-4">
       <h2 className="text-xl mb-2">Results</h2>

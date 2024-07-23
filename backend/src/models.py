@@ -18,4 +18,3 @@ class GeneratePdfData(BaseModel):
 
 class GeneratePdfRequest(BaseModel):
     data: GeneratePdfData
-    

@@ -2,9 +2,9 @@ from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import JSONResponse
 import pandas as pd
 from io import StringIO
-import json
 
 router = APIRouter()
+
 
 @router.post("/csv-to-json")
 async def upload_csv(file: UploadFile = File(...)):
@@ -19,10 +19,10 @@ async def upload_csv(file: UploadFile = File(...)):
         # Convert DataFrame to JSON
         df_array = df.to_dict(orient="tight")
 
-        keys = df_array['columns']
+        keys = df_array["columns"]
 
         # Convert DataFrame object to the list of dictionares
-        data_array = [dict(zip(keys, item)) for item in df_array['data']]
+        data_array = [dict(zip(keys, item)) for item in df_array["data"]]
 
         json_object = {"data": data_array}
 

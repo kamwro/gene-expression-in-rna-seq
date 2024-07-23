@@ -8,6 +8,7 @@ from src.models import GeneratePdfRequest
 
 router = APIRouter()
 
+
 @router.post("/generate-pdf")
 async def generate_pdf(generate_pdf_data: GeneratePdfRequest):
     buffer = BytesIO()
@@ -44,9 +45,13 @@ async def generate_pdf(generate_pdf_data: GeneratePdfRequest):
     y_position -= section_title_height  # Adding space before the section content
 
     c.setFont("Helvetica", 12)
-    c.setFillColorRGB(0, 0, 0) # Back to black
+    c.setFillColorRGB(0, 0, 0)  # Back to black
     for key, value in expression_level.items():
-        c.drawString(40, y_position, f"{key}: {value:.2f}" if isinstance(value, float) else f"{key}: {value}")
+        c.drawString(
+            40,
+            y_position,
+            f"{key}: {value:.2f}" if isinstance(value, float) else f"{key}: {value}",
+        )
         y_position -= 15
 
     # Gene Counts
@@ -57,11 +62,15 @@ async def generate_pdf(generate_pdf_data: GeneratePdfRequest):
     y_position -= section_title_height  # Adding space before the section content
 
     c.setFont("Helvetica", 12)
-    c.setFillColorRGB(0, 0, 0) # Back to black
+    c.setFillColorRGB(0, 0, 0)  # Back to black
     for key, value in gene_counts.items():
         draw_text(f"{key}: {value}", margin, y_position)
 
     c.save()
     buffer.seek(0)
 
-    return StreamingResponse(buffer, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=results.pdf"})
+    return StreamingResponse(
+        buffer,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "attachment; filename=results.pdf"},
+    )

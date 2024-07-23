@@ -2,6 +2,11 @@ from invoke import task
 
 
 @task
+def freeze(c):
+    c.run("pip freeze > requirements.txt")
+
+
+@task
 def install(c):
     c.run("pip install -r requirements.txt")
 

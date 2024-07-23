@@ -27,11 +27,16 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
       try {
         const formData = new FormData();
         formData.append('file', file);
-        const response = await axios.post(`${API_BASE_URL}/api/csv-to-json`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }});
-        
+        const response = await axios.post(
+          `${API_BASE_URL}/api/csv-to-json`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
         onSubmit(response.data);
       } catch (error) {
         console.error('Error parsing CSV file', error);
