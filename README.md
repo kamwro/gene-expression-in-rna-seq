@@ -2,7 +2,7 @@
 
 ## Tech stack
 
-### Backend: Fastapi + Sqlite
+### Backend: Fastapi
 
 ### Frontend: React (ts) + CSS Tailwind
 
