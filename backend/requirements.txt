@@ -1,6 +1,5 @@
 annotated-types==0.7.0
 anyio==4.4.0
-biopython==1.84
 black==24.4.2
 certifi==2024.7.4
 chardet==5.2.0
