@@ -30,4 +30,3 @@ def typecheck(c):
 @task
 def run(c):
     c.run("uvicorn src.app:app --reload")
-    
