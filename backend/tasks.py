@@ -30,8 +30,4 @@ def typecheck(c):
 @task
 def run(c):
     c.run("uvicorn src.app:app --reload")
-
-
-@task
-def seed(c):
-    c.run("python src/scripts/seed.py")
+    

@@ -12,7 +12,6 @@
     "lint:backend": "cd backend && inv lint",
     "lint:frontend": "npm run lint --prefix frontend",
     "lint": "concurrently \"npm run lint:frontend\" \"npm run lint:backend\"",
-    "seed-db": "cd backend && inv seed",
     "start:backend": "cd backend && inv run",
     "start:frontend": "npm --prefix frontend start",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
