@@ -6,3 +6,6 @@ gene_names
 
 [tool.mypy]
 files = "src"
+plugins = [
+    "sqlalchemy.ext.mypy.plugin"
+]
