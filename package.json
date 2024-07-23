@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "setup": "bash ./scripts/setup.sh",
     "build:backend": "cd backend && inv install",
     "build:frontend": "npm run build --prefix frontend",
     "build": "concurrently \"npm run build:frontend\" \"npm run build:backend\"",
