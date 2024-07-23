@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import Any, Dict, List
 
 
 class GeneExpressionRequest(BaseModel):
@@ -8,4 +8,13 @@ class GeneExpressionRequest(BaseModel):
 
 
 class GeneExpressionData(BaseModel):
-    data: List[GeneExpressionRequest]
+    data: List[Dict[str, Any]]
+
+
+class GeneratePdfData(BaseModel):
+    expression_level: Dict[str, float]
+    gene_counts: Dict[str, int]
+
+
+class GeneratePdfRequest(BaseModel):
+    data: GeneratePdfData

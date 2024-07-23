@@ -2,7 +2,8 @@ import React from 'react';
 import { saveAs } from 'file-saver';
 import '../index.css';
 import type { ResultsProps } from '../utils/types';
-import jsPDF from 'jspdf';
+
+const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
 
 const Results: React.FC<ResultsProps> = ({ data }) => {
   // Check if data is an array or an object and render accordingly
@@ -29,33 +30,27 @@ const Results: React.FC<ResultsProps> = ({ data }) => {
     saveAs(blob, 'results.txt');
   };
 
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    let height = 10;
-    doc.setFontSize(20);
-    doc.setTextColor(0, 0, 255);
-    doc.text('Results', 10, height);
+  const handleDownloadPDF = async () => {
+    const response = await fetch(`${API_BASE_URL}/api/generate-pdf`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: data.data }),
+    });
 
-    const dataObject = data.data;
-
-    // Generate text for PDF from object
-    for (const [key, value] of Object.entries(dataObject)) {
-      height += 20;
-      doc.setFontSize(15);
-      doc.setTextColor(0, 0, 255);
-      doc.text(key, 10, height);
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
-      height += 10;
-      for (const [key2, value2] of Object.entries(value)) {
-        height += 10;
-        const line = `${key2}: ${value2}`;
-        doc.text(line, 10, height);
-      }
+    if (!response.ok) {
+      console.error('Failed to generate PDF');
+      return;
     }
 
-    // Save PDF
-    doc.save('results.pdf');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'results.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   return (

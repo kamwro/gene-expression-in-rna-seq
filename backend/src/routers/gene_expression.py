@@ -1,25 +1,22 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
-from typing import List, Dict, Any
 import pandas as pd
-from src.database import get_db_connection
+
+from src.models import GeneExpressionData
+from src.services import gene_expression_service as service
 
 router = APIRouter()
 
 
-class GeneExpressionData(BaseModel):
-    data: List[Dict[str, Any]]
-
-
 @router.post("/process")
 async def process_data(gene_expression_data: GeneExpressionData):
+    # Convert the incoming data into a DataFrame
     df = pd.DataFrame(gene_expression_data.data)
+    gene_count_dict = await service.get_gene_count(df)
+
+    # Prepare the result dictionary
     result = df.describe().to_dict()
+
+    # Combine the statistical summary and gene counts
+    result.update({"gene_counts": gene_count_dict})
+
     return result
-
-
-@router.get("/results")
-async def get_results():
-    conn = get_db_connection()
-    data = conn.execute("SELECT * FROM results").fetchall()
-    return [dict(row) for row in data]
