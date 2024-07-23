@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.routers import gene_expression, sample_csv, csv_to_json
+from src.routers import gene_expression, sample_csv, csv_to_json, download
 
 app = FastAPI()
 
@@ -17,6 +17,7 @@ app.add_middleware(
 app.include_router(gene_expression.router, prefix="/api")
 app.include_router(sample_csv.router, prefix="/api")
 app.include_router(csv_to_json.router, prefix="/api")
+app.include_router(download.router, prefix="/api")
 
 
 @app.get("/")

@@ -2,7 +2,8 @@ import React from 'react';
 import { saveAs } from 'file-saver';
 import '../index.css';
 import type { ResultsProps } from '../utils/types';
-import jsPDF from 'jspdf';
+
+const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
 
 const Results: React.FC<ResultsProps> = ({ data }) => {
   // Check if data is an array or an object and render accordingly
@@ -29,52 +30,29 @@ const Results: React.FC<ResultsProps> = ({ data }) => {
     saveAs(blob, 'results.txt');
   };
 
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    let y = 10;
-    const lineHeight = 10;
-    const margin = 10;
-    const pageHeight = doc.internal.pageSize.height;
+  const handleDownloadPDF = async () => {
+    const response = await fetch(`${API_BASE_URL}/api/generate-pdf`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: data.data }),
+    });
   
-    doc.setFontSize(20);
-    doc.setTextColor(0, 0, 255);
-    doc.text('Results', margin, y);
-    y += lineHeight * 2;
-  
-    const dataObject = data.data;
-  
-    for (const [key, value] of Object.entries(dataObject)) {
-      // Check if we need a new page before writing the key
-      if (y + lineHeight * 2 > pageHeight - margin) {
-        doc.addPage();
-        y = margin;
-      }
-      doc.setFontSize(15);
-      doc.setTextColor(0, 0, 255);
-      doc.text(key, margin, y);
-      y += lineHeight;
-  
-      // Check if we need a new page before writing the values
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
-      for (const [key2, value2] of Object.entries(value)) {
-        if (y + lineHeight > pageHeight - margin) {
-          doc.addPage();
-          y = margin;
-        }
-        const line = `${key2}: ${value2}`;
-        doc.text(line, margin, y);
-        y += lineHeight;
-      }
-      y += lineHeight; // Add space between sections
+    if (!response.ok) {
+      console.error('Failed to generate PDF');
+      return;
     }
   
-    doc.save('results.pdf');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'results.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
   
-  
-  
-
   return (
     <div className="mt-4">
       <h2 className="text-xl mb-2">Results</h2>
