@@ -12,6 +12,7 @@ npm install
 
 cd ..
 
+# Build application
 echo -e "\nBuilding application...\n"
 npm run build
 
