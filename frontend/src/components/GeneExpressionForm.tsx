@@ -7,6 +7,7 @@ const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
 
 const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
   onSubmit,
+  isLoading = false,
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +29,7 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
         const formData = new FormData();
         formData.append('file', file);
         const response = await axios.post(
-          `${API_BASE_URL}/api/csv-to-json`,
+          `${API_BASE_URL}/api/v1/csv-to-json`,
           formData,
           {
             headers: {
@@ -53,7 +54,7 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
   };
 
   const handleDownloadSampleCSV = async () => {
-    const response = await fetch(`${API_BASE_URL}/api/sample-csv`);
+    const response = await fetch(`${API_BASE_URL}/api/v1/sample-csv`);
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -71,9 +72,10 @@ const GeneExpressionForm: React.FC<GeneExpressionFormProps> = ({
 
       <button
         type="submit"
-        className="mr-10 mt-2 px-4 py-2 bg-blue-500 text-white"
+        disabled={isSubmitting || isLoading}
+        className="mr-10 mt-2 px-4 py-2 bg-blue-500 text-white disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? 'Submitting...' : 'Analyze'}
+        {isSubmitting || isLoading ? 'Processing...' : 'Analyze'}
       </button>
 
       <button

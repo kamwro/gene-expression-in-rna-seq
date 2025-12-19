@@ -10,6 +10,7 @@ export interface GeneExpressionData {
 
 export interface GeneExpressionFormProps {
   onSubmit: (data: GeneExpressionData) => void;
+  isLoading?: boolean;
 }
 
 export interface ResultsProps {
