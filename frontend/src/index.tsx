@@ -19,7 +19,7 @@ if (rootElement) {
   root.render(
     <QueryClientProvider client={queryClient}>
       <App />
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 } else {
   console.error('Root element not found');

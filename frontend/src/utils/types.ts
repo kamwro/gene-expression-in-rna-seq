@@ -16,6 +16,6 @@ export interface GeneExpressionFormProps {
 export interface ResultsProps {
   fields?: string[];
   data: {
-    data: Record<string, any>[]; // Array of records
+    data: any; // Can be array or object response from API
   };
 }
