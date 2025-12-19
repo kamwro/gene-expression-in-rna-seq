@@ -30,14 +30,18 @@ class GeneExpressionData(BaseModel):
         if not v:
             raise ValueError("Data cannot be empty")
         if len(v) > 100000:
-            raise ValueError("Data exceeds maximum allowed size (100,000 rows)")
+            raise ValueError(
+                "Data exceeds maximum allowed size (100,000 rows)"
+            )
 
         # Validate each entry has required fields
         for idx, entry in enumerate(v):
             if "gene" not in entry:
                 raise ValueError(f"Entry at index {idx} missing 'gene' field")
             if "expression_level" not in entry:
-                raise ValueError(f"Entry at index {idx} missing 'expression_level' field")
+                raise ValueError(
+                    f"Entry at index {idx} missing 'expression_level' field"
+                )
 
         return v
 

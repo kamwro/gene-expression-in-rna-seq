@@ -10,9 +10,7 @@ router = APIRouter()
 
 @router.post("/process", response_model=GeneExpressionResponse)
 def process_data(gene_expression_data: GeneExpressionData):
-    """
-    Process gene expression data and return statistical summary with gene counts.
-    """
+    """Process gene expression data and return summary with gene counts."""
     try:
         # Convert the incoming data into a DataFrame
         df = pd.DataFrame(gene_expression_data.data)
@@ -21,7 +19,9 @@ def process_data(gene_expression_data: GeneExpressionData):
         if "gene" not in df.columns or "expression_level" not in df.columns:
             raise HTTPException(
                 status_code=400,
-                detail="Data must contain 'gene' and 'expression_level' columns",
+                detail=(
+                    "Data must contain 'gene' and 'expression_level' columns"
+                ),
             )
 
         gene_count_dict = service.get_gene_count(df)
@@ -36,4 +36,6 @@ def process_data(gene_expression_data: GeneExpressionData):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Internal server error: {str(e)}"
+        )

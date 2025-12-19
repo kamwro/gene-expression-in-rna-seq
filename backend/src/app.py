@@ -11,8 +11,12 @@ from src.schemas import HealthCheckResponse
 app = FastAPI(title=settings.api_title, version=settings.api_version)
 
 # Exception handlers
-app.add_exception_handler(RequestValidationError, error_handler.validation_exception_handler)
-app.add_exception_handler(StarletteHTTPException, error_handler.http_exception_handler)
+app.add_exception_handler(
+    RequestValidationError, error_handler.validation_exception_handler
+)
+app.add_exception_handler(
+    StarletteHTTPException, error_handler.http_exception_handler
+)
 app.add_exception_handler(Exception, error_handler.generic_exception_handler)
 
 app.add_middleware(
@@ -23,9 +27,13 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
-app.include_router(gene_expression.router, prefix="/api/v1", tags=["Gene Expression"])
+app.include_router(
+    gene_expression.router, prefix="/api/v1", tags=["Gene Expression"]
+)
 app.include_router(sample_csv.router, prefix="/api/v1", tags=["Sample Data"])
-app.include_router(csv_to_json.router, prefix="/api/v1", tags=["CSV Processing"])
+app.include_router(
+    csv_to_json.router, prefix="/api/v1", tags=["CSV Processing"]
+)
 app.include_router(download.router, prefix="/api/v1", tags=["Downloads"])
 
 

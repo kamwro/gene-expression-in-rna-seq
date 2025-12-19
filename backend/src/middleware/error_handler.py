@@ -7,7 +7,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(
+    request: Request, exc: RequestValidationError
+):
     """Handle validation errors with detailed messages."""
     logger.error(f"Validation error: {exc.errors()}")
     return JSONResponse(
@@ -16,7 +18,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 
 
-async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+async def http_exception_handler(
+    request: Request, exc: StarletteHTTPException
+):
     """Handle HTTP exceptions."""
     logger.error(f"HTTP error: {exc.detail}")
     return JSONResponse(
